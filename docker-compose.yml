@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+    logstashapp:
+        build: ./
+        image: jhardison/docker-logstash-netflow:latest
+        restart: always
+        volumes:
+            - ${PWD}/conf/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+            - ${PWD}/conf/logstash.yml:/usr/share/logstash/config/logstash.yml
+        ports:
+            - 9995:9995
+        networks:
+            - logstashNetflow
+        deploy:
+            replicas: 1
+            restart_policy:
+                condition: any            
+
+networks:
+    logstashNetflow:
